@@ -103,9 +103,6 @@ const CreateLink = () => {
             console.log("createData", createData);
             if (createData.hasError === true) {
                 toast.error(createData.error.message)
-                // if (createData.error.message === 'token exipre') {
-                //   navigate('/');
-                // }
             }
             else {
                 toast.success("link created successfully")
