@@ -17,7 +17,14 @@ export const makeApi = async (req, url, body) => {
     };
     try {
         const response = await axios(config);
-        return response.data;
+        if (response.data.error && response.data.error.error_code === 403) {
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("User_Role");
+            window.open('http://localhost:3000/');
+            return;
+        } else {
+            return response.data;
+        }
     } catch (error) {
         console.log(error);
         throw error;

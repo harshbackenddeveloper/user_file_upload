@@ -39,18 +39,36 @@ const CreateLink = () => {
     const [selectedWhatsAppId, setSelectedWhatsAppId] = useState('')
     const [allLinkDetails, setAllLinkDetails] = useState([])
 
+    const [searchResut, setSearchResult] = useState('');
+    const [userStatus, setUserStatus] = useState('');
+
     //get previos link
     const getLinkList = async () => {
         // setLoading(true)
         try {
-            const LinkList = await makeApi('post', '/v1/user/getLinkById', { serach_key: searchResut, stauts: userStatus })
+            let LinkList;
+
+            if (searchResut) {
+                LinkList = await makeApi('post', '/v1/linklist', { serach_key: searchResut });
+                setLink(LinkList.data)
+            } else if (userStatus === 0) {
+                LinkList = await makeApi('post', '/v1/linklist', { stauts: userStatus })
+                setLink(LinkList.data)
+            } else if (searchResut && userStatus) {
+                LinkList = await makeApi('post', '/v1/linklist', { serach_key: searchResut, stauts: userStatus })
+                setLink(LinkList.data)
+            } else {
+                LinkList = await makeApi('post', '/v1/linklist')
+                setLink(LinkList.data)
+            }
+            console.log("user link created list ", LinkList);
+
             const allDetailsLiks = await makeApi('get', '/v1/user/getstorage');
             setAllLinkDetails(allDetailsLiks.data)
-            console.log("user link created list ", LinkList);
             if (LinkList.hasError == true) {
                 // toast.error(LinkList.error.message)
             } else {
-                setLink(LinkList.data)
+                // setLink(LinkList.data)
             }
         } catch (error) {
             console.log(error);
@@ -58,7 +76,6 @@ const CreateLink = () => {
             // setLoading(false)
         }
     }
-
 
     //function to copy url in clipboard
     let copyURLToClipboard = (url) => {
@@ -148,10 +165,9 @@ const CreateLink = () => {
     const closeCreateLinkModal = () => setModalCreateLink(false);
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    const [searchResut, setSearchResult] = useState('');
-    const [userStatus, setUserStatus] = useState('');
+
 
     const clearAllFilter = () => {
         setSearchResult('');
@@ -170,11 +186,11 @@ const CreateLink = () => {
 
     const rows = link.map((userLink, index) => ({
         ...userLink,
-        id: index + 1,
+        sno: index + 1,
     }));
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'sno', headerName: 'sno', width: 70 },
         { field: 'link_name', headerName: 'Link Name', width: 200 },
         { field: 'link_url', headerName: 'Link Url', width: 150 },
         { field: 'created_at', headerName: 'Create Date', width: 150, renderCell: (params) => <ProperDateFormat dateString={params.row.created_at} /> },
@@ -193,6 +209,7 @@ const CreateLink = () => {
                             onClick={() => {
                                 if (params.row.status === 0) {
                                     shareDocumentLink(params.row.id, params.row.link_url);
+
                                 }
                             }}
                             disabled={params.row.status !== 0}
@@ -210,14 +227,27 @@ const CreateLink = () => {
             field: 'show',
             headerName: 'Show',
             width: 120,
-            renderCell: (params) => (
-                <Button variant="contained" color="primary" onClick={() => showDocument(params.row.id)}>Show</Button>
-            )
+            renderCell: (params) => {
+                if (params && params.row && typeof params.row.status !== 'undefined') {
+                    return (
+                        <Button
+                            variant="contained" onClick={() => {
+                                if (params.row.status !== 0) {
+                                    showDocument(params.row.id);
+                                }
+                            }}
+                            disabled={params.row.status === 0}
+                        >
+                            Show
+                        </Button>
+                    )
+                }
+            }
         },
     ];
 
     useEffect(() => {
-        getLinkList()
+        getLinkList();
     }, [searchResut, userStatus])
 
 

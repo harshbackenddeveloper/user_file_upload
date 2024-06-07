@@ -17,6 +17,7 @@ const ShowDocument = ({ open, handleClose, id }) => {
     const [downloadMessage, setDownloadMessage] = useState(false)
 
     const getDocumentByLinkId = async () => {
+        console.log("id at show documtnetnt", id)
         try {
             setLoading(true)
             const link_id = { link_id: id };
