@@ -1,16 +1,19 @@
 .demo{
-
     background-color: red;
 }
 .imup-scrolling{
-   
     height: 560px;
     overflow: auto;
     scrollbar-width: thin;
 }
 .imupca-image{
-    width: 31%;
+    width: 29%;
     margin: 1%;
+}
+.ctr-imgshow{
+    height: 300px;
+    overflow: auto;
+    scrollbar-width: thin;
 }
 @media(max-width :1500px){
     .imup-scrolling{
@@ -37,5 +40,9 @@
         /* height: ; */
     }
 }
-
+@media(max-width :527px){
+    .imupca-image{
+        width: 27%;
+    }
+}
 /* style={{ width: "230px", margin: '5px' }} */

@@ -14,7 +14,6 @@ const ShowDocument = ({ open, handleClose, id }) => {
     const [docImg, setDocImg] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
-    const [downloadMessage, setDownloadMessage] = useState(false)
 
     const getDocumentByLinkId = async () => {
         console.log("id at show documtnetnt", id)
@@ -42,7 +41,6 @@ const ShowDocument = ({ open, handleClose, id }) => {
         }
     }, [open, id]);
 
-
     const handleImageSelection = (imageId) => {
         if (selectedImages.includes(imageId)) {
             setSelectedImages(selectedImages.filter(id => id !== imageId));
@@ -54,7 +52,10 @@ const ShowDocument = ({ open, handleClose, id }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            const allImageIds = docImg.map(item => item.id);
+            const allImageIds = docImg
+                .filter(item => item.is_deleted !== 1) 
+                .map(item => item.id);
+            console.log("selectAll", allImageIds)
             setSelectedImages(allImageIds);
         } else {
             setSelectedImages([]);
@@ -83,7 +84,6 @@ const ShowDocument = ({ open, handleClose, id }) => {
         toast.success('User images deleted successfully');
         setSelectedImages([]);
     };
-
 
     const downloadAllImg = async () => {
         try {
@@ -144,7 +144,7 @@ const ShowDocument = ({ open, handleClose, id }) => {
                                         <tbody>
                                             {docImg.map((item, index) => (
                                                 <tr key={item.id}>
-                                                    <td><Checkbox checked={selectedImages.includes(item.id)} onChange={() => handleImageSelection(item.id)} /></td>
+                                                    <td> {item.is_deleted !== 1 ? <Checkbox checked={selectedImages.includes(item.id)} onChange={() => handleImageSelection(item.id)} /> : null}</td>
                                                     <th scope="row" >{index + 1}</th>
                                                     <td>{item.is_deleted !== 1 ? <img style={{ height: '120px', width: '120px' }} src={"http://sharelink.clientdemobot.com/" + item.file} alt="Delete" /> : <h4 style={{ color: "red" }}>Deleted</h4>}</td>
                                                     <th scope="row" >Date: {formatDate(item.created_at)}, Time: {formatTime(item.created_at)}</th>
@@ -156,7 +156,6 @@ const ShowDocument = ({ open, handleClose, id }) => {
                                                 </tr>
                                             ))}
                                         </tbody>
-
                                     </table>
                                 </div>
                                 <div>

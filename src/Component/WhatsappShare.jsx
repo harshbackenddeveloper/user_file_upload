@@ -15,7 +15,7 @@ const WhatsappShare = ({ open, handleCloseWhatsapp, id }) => {
         e.preventDefault();
 
         const trimmedMobile = mobile.trim();
-        if(trimmedMobile.length !== 10){
+        if (trimmedMobile.length !== 10) {
             toast.error("please enter a valid number")
             return;
         }

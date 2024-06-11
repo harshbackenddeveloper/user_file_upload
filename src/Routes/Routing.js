@@ -20,13 +20,11 @@ export default function Routing() {
           <Route path='/dashboard' element={<PrivateRoute> <Index /> </PrivateRoute>} />
           <Route path='/createlink' element={<PrivateRoute> <CreateLink /> </PrivateRoute>} />
 
-
           {/* coomon route user can access without login */}
           <Route path='/thankyou' element={<ThankYou />} />
           <Route path="/uploadDetails/:key" element={<UploadDetails />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/confirmpassword/:token" element={<Conframp />} />
-
         </Routes>
       </BrowserRouter>
     </>

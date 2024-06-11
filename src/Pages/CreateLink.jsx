@@ -51,10 +51,11 @@ const CreateLink = () => {
             if (searchResut) {
                 LinkList = await makeApi('post', '/v1/linklist', { serach_key: searchResut });
                 setLink(LinkList.data)
-            } else if (userStatus === 0) {
+            } else if (userStatus === 0 || userStatus === 1) {
                 LinkList = await makeApi('post', '/v1/linklist', { stauts: userStatus })
                 setLink(LinkList.data)
             } else if (searchResut && userStatus) {
+                console.log("stauts ", userStatus)
                 LinkList = await makeApi('post', '/v1/linklist', { serach_key: searchResut, stauts: userStatus })
                 setLink(LinkList.data)
             } else {
@@ -164,8 +165,6 @@ const CreateLink = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
-
-
     const clearAllFilter = () => {
         setSearchResult('');
         setUserStatus('');
@@ -215,8 +214,7 @@ const CreateLink = () => {
                         </Button>
                     );
                 } else {
-                    // Handle the case where params or params.row is undefined
-                    return null; // or return an alternative UI
+                    return null;
                 }
             }
         },
@@ -247,7 +245,6 @@ const CreateLink = () => {
         getLinkList();
     }, [searchResut, userStatus])
 
-
     return (
         <>
             <Layout />
@@ -263,38 +260,6 @@ const CreateLink = () => {
                                 <button onClick={openCreateLinkModal} className='btn btn-primary mb-3 w-100' >Create Link</button>
                             </div>
                         </div>
-
-                        {/* <div className='table-responsive imulcrtlist'>
-                            {link.length > 0 ? (<table className="table table-hover table-bordered mt-0">
-                                <thead className='table-dark'>
-                                    <tr>
-                                        <th scope="col">S.No</th>
-                                        <th scope="col">Link</th>
-                                        <th scope="col">URL</th>
-                                        <th scope="col">Create Date</th>
-                                        <th scope="col">Expiry Date</th>
-                                        <th scope="col">Share</th>
-                                        <th scope="col">Show</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {link.map((item, index) => (
-                                        <tr key={item.id}>
-                                            <th scope="row" >{index + 1}</th>
-                                            <td>{item.link_name}</td>
-                                            <td>{item.link_url}</td>
-                                            <td>{ProperDateFormat({ dateString: item.created_at })}</td>
-                                            <td>{ProperDateFormat({ dateString: item.expiry_date })}</td>
-                                            <td><button className='btn btn-success' onClick={() => { if (item.status === 0) { shareDocumentLink(item.id, item.link_url); } }} disabled={item.status !== 0} >
-                                                {item.status === 0 ? "Share" : "Expired"}
-                                            </button>
-                                            </td>
-                                            <td><button className='btn btn-warning' onClick={() => showDocument(item.id)} disabled={item.status === 0} >Show</button></td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>) : (<h1 style={{ color: "red", textAlign: 'center' }}>Welcome</h1>)}
-                        </div> */}
 
                         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                             <div className='row'>
@@ -428,7 +393,6 @@ const CreateLink = () => {
                             </div>
                         ) : navigate('/')}
 
-
                         {userToken ? (
                             <div>
                                 <Modal open={openModalCreateLink} onClose={closeCreateLinkModal} >
@@ -466,9 +430,7 @@ const CreateLink = () => {
                                 </Modal>
                             </div>
                         ) : navigate('/')}
-
                     </div>
-
                 </div >)
                 }
             </div>
