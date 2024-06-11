@@ -53,7 +53,7 @@ const ShowDocument = ({ open, handleClose, id }) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             const allImageIds = docImg
-                .filter(item => item.is_deleted !== 1) 
+                .filter(item => item.is_deleted !== 1)
                 .map(item => item.id);
             console.log("selectAll", allImageIds)
             setSelectedImages(allImageIds);
@@ -159,12 +159,12 @@ const ShowDocument = ({ open, handleClose, id }) => {
                                     </table>
                                 </div>
                                 <div>
-                                    <IconButton >
-                                        <DeleteIcon style={{ fontSize: '30px' }} onClick={() => handleDeleteImages()} />
+                                    <IconButton onClick={() => handleDeleteImages()} >
+                                        <DeleteIcon style={{ fontSize: '30px' }} />
                                     </IconButton>
 
-                                    <IconButton>
-                                        <DownloadIcon style={{ fontSize: '30px' }} onClick={() => downloadAllImg()} />
+                                    <IconButton onClick={() => downloadAllImg()}>
+                                        <DownloadIcon style={{ fontSize: '30px' }} />
                                     </IconButton>
                                 </div>
                             </div>) : (<h3 style={{ color: "red", textAlign: 'center' }}>Photo's are not available</h3>)

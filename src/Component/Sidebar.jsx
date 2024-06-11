@@ -20,13 +20,13 @@ export default function Sidebar({ showSidebar, handleToggleSidebar }) {
                         <ul className="main-menu">
                             <li className="slide">
                                 <Link to='/dashboard ' className="side-menu__item">
-                                    <i className="fe fe-home side-menu__icon" />
+                                    <i className="fa-solid fa-chart-line side-menu__icon"></i>
                                     <span className="side-menu__label">Dashboard</span>
                                 </Link>
                             </li>
                             <li className="slide">
                                 <Link to='/createlink' className="side-menu__item">
-                                    <i className="fe fe-home side-menu__icon" />
+                                    <i className="fa-brands fa-staylinked side-menu__icon"></i>
                                     <span className="side-menu__label">Link</span>
                                 </Link>
                             </li>

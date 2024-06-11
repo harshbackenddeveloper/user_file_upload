@@ -253,8 +253,8 @@ const CreateLink = () => {
                     <div className="card shadow border-1 p-3 mt-5 ">
                         <div className='d-flex justify-content-between flex-wrap'>
                             <div>
-                                <p className='mb-0 fs-5'>Link-limit : - {allLinkDetails.linkstatus}</p>
-                                <p className=' fs-5'> Space {(allLinkDetails.remainingspace)} MB Free of {(allLinkDetails.totalspace)} MB </p>
+                                <p className='mb-0 fs-5'><strong>Link-Limit : -</strong>  {allLinkDetails.linkstatus}</p>
+                                <p className=' fs-5'> <strong>Space</strong>  {(allLinkDetails.remainingspace)} <strong>MB Free of</strong>  {(allLinkDetails.totalspace)} <strong>MB</strong>  </p>
                             </div>
                             <div>
                                 <button onClick={openCreateLinkModal} className='btn btn-primary mb-3 w-100' >Create Link</button>
